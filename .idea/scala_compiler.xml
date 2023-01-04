@@ -5,8 +5,6 @@
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
       <parameters>
-        <parameter value="-encoding" />
-        <parameter value="UTF-8" />
         <parameter value="-target:jvm-1.8" />
       </parameters>
     </profile>

@@ -17,11 +17,13 @@ def enableProguardInReleaseBuilds = true
 
 android {
 //    scalroid.scala.zincVersion = '1.3.5'
-//    scalroid {
+    scalroid {
 //        scala.zincVersion.set('1.3.5')
+//        scalaCodeReferToKt = true
+//        ktCodeReferToScala = true
 //        message = 'Hi'
 //        greeter = 'Gradle'
-//    }
+    }
 
     namespace 'com.example.demomaterial3'
     compileSdk 33
