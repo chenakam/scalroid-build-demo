@@ -50,7 +50,10 @@ android {
         release {
             String kStoreFile = System.getenv("KEY_STORE_FILE")
             boolean useDebugConf = kStoreFile == null
-            println("---------->>> signingConfigs.release | useDebugConf: $useDebugConf")
+            println(">>> signingConfigs.release" + (!useDebugConf ? "" : "\n" +
+                    "    * WARNING: the config may be incorrect because of CANNOT find the release keystore settings lead to the BEBUG signing config was used currently.\n" +
+                    "      If you are now releasing the product, you need to confirm that the configuration is correct, the usual practice is to\n" +
+                    "      set LOCAL ENVIRONMENT VARIABLES first (see `release.sh` or similar scripts or instructions or ask someone who knows this)."))
             storeFile file(useDebugConf ? KEYSTORE_FILE : kStoreFile)
             storePassword useDebugConf ? KEYSTORE_STOREPWD : System.getenv("KEY_STORE_STORE_PWD")
             keyAlias useDebugConf ? KEYSTORE_ALIAS : System.getenv("KEY_STORE_KEY_ALIAS")
@@ -58,7 +61,7 @@ android {
             v2SigningEnabled true
         }
         debug {
-            println("---------->>> signingConfigs.debug")
+            println(">>> signingConfigs.debug")
             storeFile file(KEYSTORE_FILE)
             storePassword KEYSTORE_STOREPWD
             keyAlias KEYSTORE_ALIAS
@@ -171,7 +174,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    implementation 'com.github.bdo-cash:annoid:af2b53cfce'
+    //implementation 'com.github.bdo-cash:annoid:af2b53cfce'
+    implementation project(':annoid')
+
     // Scala 3
     // https://mvnrepository.com/artifact/org.scala-lang/scala3-library
 //    implementation 'org.scala-lang:scala3-library_$scala3.Binary:$scala3.Version'
