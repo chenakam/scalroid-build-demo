@@ -1,0 +1,75 @@
+/**
+ * e.g:
+ * versionName:   1.4.1 build 3935, corresponding
+ * versionCode: 101 4 1       3935, remove space: 101413935
+ * indicates: version 1.4.1, week 39, wednesday, the 5th version packaged on this day.
+ */
+def VERSION_NAME = "1.0.2 build ${weekIndex()}${weekDay()}2"
+
+/**
+ * Set this to true to create two separate APKs instead of one:
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.*/
+def enableSeparateBuildPerCPUArchitecture = true
+// Run Proguard to shrink the Java bytecode in release builds.
+def enableProguardInReleaseBuilds = true
+
+ext {
+    android = [
+            compileSdk : 33,
+            buildTools : "33.0.1",
+
+            minSdk     : 26,
+            targetSdk  : 33,
+
+            versionCode: versionName2Code(VERSION_NAME),
+            versionName: VERSION_NAME
+    ]
+
+    manifestPlaceholders = [
+            serverHost: "https://a.b.com",
+            //是否上架
+            onShelf   : "false"
+    ]
+
+    enablePerCPUArch = enableSeparateBuildPerCPUArchitecture
+    proguardRelease = enableProguardInReleaseBuilds
+}
+
+////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////
+static def versionName2Code(String versionName) {
+    // "0.9.4 build ${weekIndex()}${weekDay()}1"
+    def array = versionName.split("[\\s]+")
+
+    assert array.length == 3
+    def arr = array[0].split("\\.")
+    assert arr.length == 3
+    assert arr[1].length() == 1
+    assert arr[2].length() == 1
+
+    def minor = array[2].split("[\\D]+")[0]
+
+    String versionCode = String.valueOf(Integer.valueOf(arr[0]) + 100) +
+            arr[1] + arr[2] + String.format("%04d", Integer.valueOf(minor))
+    println("versionCode:$versionCode")
+
+    return Integer.valueOf(versionCode)
+}
+
+static def weekIndex() {
+    Calendar calendar = Calendar.getInstance()
+    calendar.setFirstDayOfWeek(Calendar.MONDAY)
+    calendar.setMinimalDaysInFirstWeek(1)
+    return String.format("%02d", calendar.get(Calendar.WEEK_OF_YEAR))
+}
+
+static def weekDay() {
+    Calendar calendar = Calendar.getInstance()
+    calendar.setFirstDayOfWeek(Calendar.MONDAY)
+    calendar.setMinimalDaysInFirstWeek(1)
+    def dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
+    if (dayOfWeek == 0) return 7 else return dayOfWeek
+}

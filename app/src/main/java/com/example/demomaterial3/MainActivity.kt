@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), TAG.ClassName {
         LOG.e(object : AbstractFunction0<String>() {
             override fun apply(): String = "test hi: ${test.hi()}"
         }, `Seq$`.`MODULE$`.empty<Any>(), className())
-        L.e(className(), "test message ${test.hiJava()}")
+        L.e(className(), "test message %s", test.hiJava())
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
