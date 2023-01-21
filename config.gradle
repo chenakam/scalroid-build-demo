@@ -16,6 +16,8 @@ def VERSION_NAME = "1.0.2 build ${weekIndex()}${weekDay()}2"
 def enableSeparateBuildPerCPUArchitecture = true
 // Run Proguard to shrink the Java bytecode in release builds.
 def enableProguardInReleaseBuilds = true
+// 是否打印 build.gradle 脚本的一些输出。
+def enableBuildScriptPrintln = true
 
 ext {
     android = [
@@ -35,7 +37,8 @@ ext {
             onShelf   : "false"
     ]
 
-    enablePerCPUArch = enableSeparateBuildPerCPUArchitecture
+    enableScriptPrint = enableBuildScriptPrintln
+    enablePerCpuArch = enableSeparateBuildPerCPUArchitecture
     proguardRelease = enableProguardInReleaseBuilds
 }
 

@@ -32,11 +32,15 @@ class MainActivity : AppCompatActivity(), TAG.ClassName {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        BuildConfig.XXX
+        R.id.toolbar
+        Test4().hi()
+
         Log.e(className().toString(), "test message ${Test2.hi()}")
         LOG.e(object : AbstractFunction0<String>() {
-            override fun apply(): String = "test hi: ${test.hi()}"
+            override fun apply(): String = "test hi: ${test1.hi()}"
         }, `Seq$`.`MODULE$`.empty<Any>(), className())
-        L.e(className(), "test message %s", test.hiJava())
+        L.e(className(), "test message %s", "hi java: ${test1.hiJava()}")
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)

@@ -1,8 +1,9 @@
 package com.example.demomaterial3
 
 import hobby.chenai.nakam.basis.TAG
+import hobby.wei.c.anno.annoid
 
-object test extends TAG.ClassName {
+object test1 extends TAG.ClassName {
   private lazy val testJava = new TestJava
   private lazy val testJava2 = new TestJava2
 
@@ -13,10 +14,13 @@ object test extends TAG.ClassName {
 
   //def invoKt = test3.INSTANCE.xxx()
 
+  def invoJavaInKt(): Unit = new Test4().hi()
+
   import hobby.wei.c.LOG
 
   def hiJava = {
-    LOG.i("")
+    LOG.i(annoid.BuildConfig.LIBRARY_PACKAGE_NAME + BuildConfig.XXX + R.id.button_first)
+
     testJava.hello()
     testJava2.hello()
   }

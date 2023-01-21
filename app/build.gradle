@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    //id 'org.jetbrains.kotlin.android' // 等同于：
+    id 'kotlin-android'
+    //id 'kotlin-kapt'
     id 'cash.bdo.scalroid'
 }
 
@@ -9,13 +11,29 @@ android {
     scalroid {
 //        scala.zincVersion.set('1.6.1')
 //        scalaCodeReferToKt = true
-//        ktCodeReferToScala = true
+//        ktCodeReferToScala = false
+        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
 //        message = 'Hi'
 //        greeter = 'Gradle'
     }
 
     namespace 'com.example.demomaterial3'
     compileSdk rootProject.ext.android.compileSdk
+
+    //testBuildType 'release'
+
+    // > Task :app:compileGithubDebugAndroidTestJavaWithJavac FAILED
+    // /Users/weichou/git/bdo.cash/demo-material-3/app/build/generated/source/buildConfig/androidTest/github/debug/com/example/demomaterial3/test/BuildConfig.java:4:
+    // 错误: 程序包com.example.demomaterial3.test名称的类冲突
+    // package com.example.demomaterial3.test;
+    // 尝试解决以上问题但不行。原因是自定义插件 scalroid 的问题。
+    /*variantFilter { variant ->
+        variant.flavors.each { flavor ->
+            if (flavor.name == 'googleplay') {
+                variant.ignore = true
+            }
+        }
+    }*/
 
     defaultConfig {
         applicationId "com.example.demomaterial3"
@@ -28,6 +46,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        buildConfigField "boolean", "XXX", "false"
+
         ndk {
             //abiFilters "armeabi-v7a"
         }
@@ -35,7 +55,7 @@ android {
     splits {
         abi {
             reset()
-            enable rootProject.ext.enablePerCPUArch
+            enable rootProject.ext.enablePerCpuArch
             universalApk false  // If true, also generate a universal APK
             include "armeabi-v7a", "arm64-v8a" //, "x86", "x86_64"
         }
@@ -60,7 +80,7 @@ android {
         release {
             String kStoreFile = System.getenv("KEY_STORE_FILE")
             boolean useDebugConf = kStoreFile == null
-            println(">>> signingConfigs.release" + (!useDebugConf ? "" : "\n" +
+            if (rootProject.ext.enableScriptPrint) println(">>> signingConfigs.release" + (!useDebugConf ? "" : "\n" +
                     "    * WARNING: the config may be incorrect because of CANNOT find the release keystore settings lead to the BEBUG signing config was used currently.\n" +
                     "      If you are now releasing the product, you need to confirm that the configuration is correct, the usual practice is to\n" +
                     "      set LOCAL ENVIRONMENT VARIABLES first (see `release.sh` or similar scripts or instructions or ask someone who knows this)."))
@@ -71,7 +91,7 @@ android {
             v2SigningEnabled true
         }
         debug {
-            println(">>> signingConfigs.debug")
+            if (rootProject.ext.enableScriptPrint) println(">>> signingConfigs.debug")
             storeFile file(KEYSTORE_FILE)
             storePassword KEYSTORE_STOREPWD
             keyAlias KEYSTORE_ALIAS
@@ -137,7 +157,7 @@ android {
             def verCode = defaultConfig.versionCode
             if (abi != null) {  // null for the universal-debug, universal-release variants
                 output.versionCodeOverride = versionCodes.get(abi) * version4Abi(verCode) + verCode
-                println("versionCode: $output.versionCode / $variant.applicationId / $abi")
+                if (rootProject.ext.enableScriptPrint) println("versionCode: $output.versionCode / $variant.applicationId / $abi")
             }
             if (variant.buildType.zipAlignEnabled) {
                 output.outputFileName = genOutputApkFileName(output.outputFileName.toString(), abi, variant)
@@ -166,7 +186,7 @@ static def getDate() {
 dependencies {
     ////////// ////////// ////////// ////////// ////////// 便于看 android gradle 插件的源码 ////////// ////////// ////////// ////////// //////////
     // 注意：implementation 的 version 字段要与 id 'xxx' 的 version 保持一致（这在项目根目录下的`build.gradle`）。
-    // id 'com.android.application' version '7.3.1' apply false
+    // id 'com.android.application' version '7.4.0' apply false
     // id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 
     // 这行不需要，External Libraries 下第一个就是`gradle-api-xxx.jar`。
@@ -177,9 +197,13 @@ dependencies {
 //    compileOnly 'org.gradle:gradle-core-api:6.1.1'
 
     // https://mvnrepository.com/artifact/com.android.tools.build/gradle
-//    compileOnly 'com.android.tools.build:gradle:7.3.1'
+//    compileOnly 'com.android.tools.build:gradle:7.4.0'
 //    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.7.20'
 //    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.7.20'
+
+    // 用来查看某编译后生成的`.jar`
+//    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_app_classes_jar/githubDebug')
+//    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug')
     ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////
 
 //    implementation 'com.google.guava:guava:31.0.1-jre'
@@ -216,7 +240,7 @@ dependencies {
 //    testImplementation 'org.scalatestplus:junit-4-13_$scala3.Binary:3.2.12.0'
 //    testRuntimeOnly 'org.scala-lang.modules:scala-xml_$scala3.Binary:2.1.0'
 
-    // Scala 2
+    // Scala 2 (暂不升级为 2.13，有错)
     implementation "org.scala-lang:scala-library:$scala2.Version"
     testImplementation "org.scalatest:scalatest_$scala2.Binary:3.2.10"
     testImplementation "org.scalatestplus:junit-4-13_$scala2.Binary:3.2.2.0"

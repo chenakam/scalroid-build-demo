@@ -20,3 +20,6 @@ build/
 /annoid/
 /reflow/
 /buildSrc/
+
+release.keystore
+release.sh
