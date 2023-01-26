@@ -171,7 +171,7 @@ def genOutputApkFileName(String defaultApkFileName, abi, variant) {
             "-v${android.defaultConfig.versionName}" +
             //"-${getDate()}" + // 版本号就带了日期
             "-${variant.productFlavors[0].name}" +
-            "${abi == null ? '' : '-' + abi.toString()}.apk")
+            "${abi ? '-' + abi.toString() : ''}.apk")
             .replaceAll(' ', '').toLowerCase()
 }
 // Put the highest bit +1. e.g: [1]01413935 -> [2]01413935 / [3]01413935 etc.
