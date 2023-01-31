@@ -102,11 +102,18 @@ android {
     buildTypes {
         release {
             shrinkResources true
-            minifyEnabled rootProject.ext.proguardRelease
+            minifyEnabled true // 只能`true`（或不写）
             proguardFiles /*getDefaultProguardFile('proguard-android-optimize.txt'),*/ 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
+            // TODO:
+            //  > Task :app:mergeExtDexXxxDebug FAILED
+            //  ERROR:D8: java.lang.ArrayIndexOutOfBoundsException: Index 65535 out of bounds for length 62070
+            //  com.android.builder.dexing.DexArchiveMergerException: Error while merging dex archives: xxx
+            // 'com.android.application' version '7.4.0' 需要（奇葩）
+            minifyEnabled true
+
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
         }
@@ -187,7 +194,7 @@ dependencies {
     ////////// ////////// ////////// ////////// ////////// 便于看 android gradle 插件的源码 ////////// ////////// ////////// ////////// //////////
     // 注意：implementation 的 version 字段要与 id 'xxx' 的 version 保持一致（这在项目根目录下的`build.gradle`）。
     // id 'com.android.application' version '7.4.0' apply false
-    // id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
+    // id 'org.jetbrains.kotlin.android' version '1.7.22' apply false
 
     // 这行不需要，External Libraries 下第一个就是`gradle-api-xxx.jar`。
     //implementation gradleApi()
@@ -198,8 +205,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.android.tools.build/gradle
 //    compileOnly 'com.android.tools.build:gradle:7.4.0'
-//    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.7.20'
-//    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.7.20'
+//    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.7.22'
+//    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.7.22'
 
     // 用来查看某编译后生成的`.jar`
 //    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_app_classes_jar/githubDebug')

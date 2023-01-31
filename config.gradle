@@ -14,8 +14,6 @@ def VERSION_NAME = "1.0.2 build ${weekIndex()}${weekDay()}2"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.*/
 def enableSeparateBuildPerCPUArchitecture = true
-// Run Proguard to shrink the Java bytecode in release builds.
-def enableProguardInReleaseBuilds = true
 // 是否打印 build.gradle 脚本的一些输出。
 def enableBuildScriptPrintln = true
 
@@ -39,7 +37,6 @@ ext {
 
     enableScriptPrint = enableBuildScriptPrintln
     enablePerCpuArch = enableSeparateBuildPerCPUArchitecture
-    proguardRelease = enableProguardInReleaseBuilds
 }
 
 ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////
