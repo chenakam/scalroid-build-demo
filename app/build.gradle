@@ -190,7 +190,21 @@ static def getDate() {
     return new Date().format('yyMMdd') // yyyyMMdd
 }
 
+// add `scalaCompileOptions` here.
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.forkOptions.with {
+        memoryMaximumSize = '3g'
+        jvmArgs = ['-XX:MaxMetaspaceSize=512m']
+    }
+    scalaCompileOptions.with {
+        force = true
+    }
+}
+
 dependencies {
+    // add `scalaCompilerPlugins` here.
+//    scalaCompilerPlugins "org.typelevel:kind-projector_2.13.1:0.11.0"
+
     ////////// ////////// ////////// ////////// ////////// 便于看 android gradle 插件的源码 ////////// ////////// ////////// ////////// //////////
     // 注意：implementation 的 version 字段要与 id 'xxx' 的 version 保持一致（这在项目根目录下的`build.gradle`）。
     // id 'com.android.application' version '7.4.0' apply false
@@ -239,6 +253,7 @@ dependencies {
     //implementation project(path: ':annoid', configuration: 'debugRuntimeElements')
     implementation project(':annoid')
     //implementation 'com.github.bdo-cash:annoid:af2b53cfce'
+    implementation project(':assoid')
 
     // Scala 3
     // https://mvnrepository.com/artifact/org.scala-lang/scala3-library

@@ -3,7 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/annoid" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/assoid" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/buildSrc" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/reflow" vcs="Git" />
   </component>
 </project>

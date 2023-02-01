@@ -18,7 +18,7 @@ build/
 .cxx
 
 /annoid/
-/reflow/
+/assoid/
 /buildSrc/
 
 release.keystore

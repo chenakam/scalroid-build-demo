@@ -17,3 +17,7 @@ git clone git@github.com:chenakam/scalroid.git buildSrc
 ```
 
 2. Open the project with `Android Studio`.
+
+3. Also refers sub-projects:
+    - [assoid](https://github.com/bdo-cash/assoid/tree/v.gradle) with branch `v.gradle`;
+    - [annoid](https://github.com/bdo-cash/annoid/tree/v.gradle) with branch `v.gradle`.
