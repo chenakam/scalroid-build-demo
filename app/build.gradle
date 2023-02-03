@@ -218,7 +218,7 @@ dependencies {
 //    compileOnly 'org.gradle:gradle-core-api:6.1.1'
 
     // https://mvnrepository.com/artifact/com.android.tools.build/gradle
-//    compileOnly 'com.android.tools.build:gradle:7.4.0'
+//    compileOnly 'com.android.tools.build:gradle:7.4.1'
 //    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.7.22'
 //    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.7.22'
 

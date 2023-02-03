@@ -1,13 +1,16 @@
 package com.example.demomaterial3
 
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import hobby.chenai.nakam.basis.TAG
 import hobby.wei.c.anno.annoid
+import com.example.demomaterial3.databinding.ActivityMainBinding
 
-object test1 extends TAG.ClassName {
+object test1 extends AppCompatActivity with TAG.ClassName {
   private lazy val testJava = new TestJava
   private lazy val testJava2 = new TestJava2
-  lazy val binding = com.example.demomaterial3.databinding.ActivityMainBinding.inflate(LayoutInflater.from(null))
+  // TODO: just test for compile.
+  lazy val binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
 
   private val hello = "hello"
 
