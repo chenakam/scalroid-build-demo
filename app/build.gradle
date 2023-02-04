@@ -22,11 +22,6 @@ android {
 
     //testBuildType 'release'
 
-    // > Task :app:compileGithubDebugAndroidTestJavaWithJavac FAILED
-    // /Users/weichou/git/bdo.cash/demo-material-3/app/build/generated/source/buildConfig/androidTest/github/debug/com/example/demomaterial3/test/BuildConfig.java:4:
-    // 错误: 程序包com.example.demomaterial3.test名称的类冲突
-    // package com.example.demomaterial3.test;
-    // 尝试解决以上问题但不行。原因是自定义插件 scalroid 的问题。
     /*variantFilter { variant ->
         variant.flavors.each { flavor ->
             if (flavor.name == 'googleplay') {
