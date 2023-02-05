@@ -2,6 +2,7 @@ package com.example.demomaterial3
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.example.demo.test5
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,6 +20,10 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        test1.hi()
+        test1.hiJava()
+        Test2.hi()
+        test5.hi()
         assertEquals("com.example.demomaterial3", appContext.packageName)
     }
 }

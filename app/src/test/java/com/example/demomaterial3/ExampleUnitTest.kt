@@ -1,5 +1,6 @@
 package com.example.demomaterial3
 
+import com.example.demo.test6
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -12,6 +13,10 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+//        test1.hi()
+//        test1.hiJava()
+        Test2.hi()
+        test6.hi()
         assertEquals(4, 2 + 2)
     }
 }

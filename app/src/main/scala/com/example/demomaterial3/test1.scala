@@ -19,7 +19,12 @@ object test1 extends AppCompatActivity with TAG.ClassName {
 
   //def invoKt = test3.INSTANCE.xxx()
 
-  def invoJavaInKt(): Unit = new Test4().hi()
+  var b = false
+
+  def invoJavaInKt(): Unit = if (!b) {
+    b = true
+    new Test4().hi()
+  }
 
   import hobby.wei.c.LOG
 
