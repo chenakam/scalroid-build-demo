@@ -1,18 +1,18 @@
 plugins {
     id 'com.android.application'
-    //id 'org.jetbrains.kotlin.android' // 等同于：
+    //id 'org.jetbrains.kotlin.android' // Required
+    // or (abbr)
     id 'kotlin-android'
-    //id 'kotlin-kapt'
+    // This plugin
     id 'cash.bdo.scalroid'
 }
 
 android {
-//    scalroid.scala.zincVersion = '1.6.1'
     scalroid {
 //        scala.zincVersion.set('1.6.1')
 //        scalaCodeReferToKt = true
 //        ktCodeReferToScala = false
-        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
+//        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
 //        message = 'Hi'
 //        greeter = 'Gradle'
     }
@@ -59,7 +59,7 @@ android {
     sourceSets {
         main {
             assets.srcDirs = ['src/main/assets']
-            // 直接内置在代码中（不用担心会串源码，有默认的过滤器）
+            // Built directly into the plugin (don't worry about confusing the source code, have default filters)
             //java.srcDirs += ['src/main/scala']
             //kotlin.srcDirs += ['src/main/scala']
             //scala.srcDirs += ['src/main/java']
@@ -68,7 +68,13 @@ android {
 
     packagingOptions {
         resources {
-            excludes += ['rootdoc.txt', 'META-INF/com.android.tools/proguard/coroutines.pro', 'META-INF/MANIFEST.MF', 'META-INF/proguard/coroutines.pro', 'org/apache/commons/codec/language/bm/sep_rules_french.txt']
+            excludes += [
+                    'rootdoc.txt',
+                    'META-INF/com.android.tools/proguard/coroutines.pro',
+                    'META-INF/MANIFEST.MF',
+                    'META-INF/proguard/coroutines.pro',
+                    'org/apache/commons/codec/language/bm/sep_rules_french.txt'
+            ]
         }
     }
     signingConfigs {
@@ -97,7 +103,7 @@ android {
     buildTypes {
         release {
             shrinkResources true
-            minifyEnabled true // 只能`true`（或不写）
+            minifyEnabled true // only `true` (or comment out)
             proguardFiles /*getDefaultProguardFile('proguard-android-optimize.txt'),*/ 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -106,8 +112,10 @@ android {
             //  > Task :app:mergeExtDexXxxDebug FAILED
             //  ERROR:D8: java.lang.ArrayIndexOutOfBoundsException: Index 65535 out of bounds for length 62070
             //  com.android.builder.dexing.DexArchiveMergerException: Error while merging dex archives: xxx
-            // 'com.android.application' version '7.4.0' 需要（奇葩）
+            // 'com.android.application' version '7.4.0' Required (miracle)
             minifyEnabled true
+            // Optional, it's would not renaming code compared to `release`.
+            proguardFiles 'proguard-rules.pro'
 
             applicationIdSuffix ".debug"
             versionNameSuffix "-debug"
@@ -171,7 +179,7 @@ android {
 def genOutputApkFileName(String defaultApkFileName, abi, variant) {
     return ("${rootProject.name}" +
             "-v${android.defaultConfig.versionName}" +
-            //"-${getDate()}" + // 版本号就带了日期
+            //"-${getDate()}" + // The version name comes with the date
             "-${variant.productFlavors[0].name}" +
             "${abi ? '-' + abi.toString() : ''}.apk")
             .replaceAll(' ', '').toLowerCase()
@@ -188,17 +196,24 @@ static def getDate() {
 // add `scalaCompileOptions` here.
 tasks.withType(ScalaCompile) {
     scalaCompileOptions.forkOptions.with {
-        memoryMaximumSize = '3g'
-        jvmArgs = ['-XX:MaxMetaspaceSize=512m']
+        //memoryMaximumSize = '3g'
+        //jvmArgs = ['-XX:MaxMetaspaceSize=512m']
     }
     scalaCompileOptions.with {
-        force = true
+        //force = true
+        it.additionalParameters = [
+                //'-Ymacro-annotations',
+                //"-deprecation",
+                //"-explaintypes"
+                // ...
+        ]
     }
 }
 
 dependencies {
-    // add `scalaCompilerPlugins` here.
-//    scalaCompilerPlugins "org.typelevel:kind-projector_2.13.1:0.11.0"
+    // TODO: add `scalaCompilerPlugins` here.
+//    scalaCompilerPlugins "org.scalamacros:paradise_$scala2.Version:[2.1.0,)"
+//    scalaCompilerPlugins "org.typelevel:kind-projector_$scala2.Version:0.11.0"
 
     ////////// ////////// ////////// ////////// ////////// 便于看 android gradle 插件的源码 ////////// ////////// ////////// ////////// //////////
     // 注意：implementation 的 version 字段要与 id 'xxx' 的 version 保持一致（这在项目根目录下的`build.gradle`）。
@@ -222,6 +237,9 @@ dependencies {
 //    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug')
     ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////
 
+//    configurations.implementation {
+//        exclude group: 'com.google.guava', module: 'listenablefuture'
+//    }
 //    implementation 'com.google.guava:guava:31.0.1-jre'
 
     implementation "androidx.core:core-ktx:$ktx.Version"
@@ -257,7 +275,7 @@ dependencies {
 //    testImplementation 'org.scalatestplus:junit-4-13_$scala3.Binary:3.2.12.0'
 //    testRuntimeOnly 'org.scala-lang.modules:scala-xml_$scala3.Binary:2.1.0'
 
-    // Scala 2 (暂不升级为 2.13，有错)
+    // Scala 2 (暂不升级为 2.13，需要大改源码，以后直接上 3.x)
     implementation "org.scala-lang:scala-library:$scala2.Version"
     testImplementation "org.scalatest:scalatest_$scala2.Binary:3.2.10"
     testImplementation "org.scalatestplus:junit-4-13_$scala2.Binary:3.2.2.0"
