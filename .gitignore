@@ -1,8 +1,6 @@
 *.iml
 
 .gradle/
-gradlew
-gradlew.bat
 local.properties
 
 /.idea/caches
