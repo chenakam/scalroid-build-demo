@@ -29,6 +29,7 @@
 #__________________________________________
 -include ../annoguard/impl/optimize.pro
 -include ../annoguard/impl/annotations.pro
+-include missing_rules.txt
 
 #-dontnote path.xxx
 
