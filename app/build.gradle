@@ -237,6 +237,10 @@ dependencies {
 //    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug')
     ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////
 
+    // Fixed the problem with 'R.id.xxx' marked red (compile is still OK)
+//    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_app_classes_jar')
+    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar')
+
 //    configurations.implementation {
 //        exclude group: 'com.google.guava', module: 'listenablefuture'
 //    }
