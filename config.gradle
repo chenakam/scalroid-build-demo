@@ -20,7 +20,7 @@ def enableBuildScriptPrintln = true
 ext {
     android = [
             compileSdk : 33,
-            buildTools : "33.0.1",
+            buildTools : "33.0.2",
 
             minSdk     : 26,
             targetSdk  : 33,

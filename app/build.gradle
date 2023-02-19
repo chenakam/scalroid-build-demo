@@ -9,7 +9,7 @@ plugins {
 
 android {
     scalroid {
-//        scala.zincVersion.set('1.6.1')
+        scala.zincVersion.set('1.8.0')
 //        scalaCodeReferToKt = true
 //        ktCodeReferToScala = false
 //        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
@@ -187,12 +187,13 @@ static def getDate() {
 
 // add `scalaCompileOptions` here.
 tasks.withType(ScalaCompile) {
+    //options.incremental = false // 不起作用，不是通过这来设置
     scalaCompileOptions.forkOptions.with {
         //memoryMaximumSize = '3g'
         //jvmArgs = ['-XX:MaxMetaspaceSize=512m']
     }
     scalaCompileOptions.with {
-        //force = true
+        //force = true // Force clean scala output classes dir and incremental `xxx.analysis` file
         it.additionalParameters = [
                 //'-Ymacro-annotations',
                 //"-deprecation",
@@ -215,6 +216,7 @@ dependencies {
 //        exclude group: 'com.google.guava', module: 'listenablefuture'
 //    }
 //    implementation 'com.google.guava:guava:31.0.1-jre'
+
     implementation "androidx.core:core-ktx:$ktx.Version"
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.7.0'
