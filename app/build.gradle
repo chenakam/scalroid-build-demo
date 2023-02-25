@@ -9,7 +9,7 @@ plugins {
 
 android {
     scalroid {
-//        scala.zincVersion.set('1.6.1')
+        scala.zincVersion.set('1.8.0')
 //        scalaCodeReferToKt = true
 //        ktCodeReferToScala = false
 //        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
@@ -195,12 +195,13 @@ static def getDate() {
 
 // add `scalaCompileOptions` here.
 tasks.withType(ScalaCompile) {
+    //options.incremental = false // 不起作用，不是通过这来设置
     scalaCompileOptions.forkOptions.with {
         //memoryMaximumSize = '3g'
         //jvmArgs = ['-XX:MaxMetaspaceSize=512m']
     }
     scalaCompileOptions.with {
-        //force = true
+        //force = true // disable incremental compile
         it.additionalParameters = [
                 //'-Ymacro-annotations',
                 //"-deprecation",
@@ -229,8 +230,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.android.tools.build/gradle
 //    compileOnly 'com.android.tools.build:gradle:7.4.1'
-//    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.7.22'
-//    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.7.22'
+//    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.8.10'
+//    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.8.10'
 
     // 用来查看某编译后生成的`.jar`
 //    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_app_classes_jar/githubDebug')
