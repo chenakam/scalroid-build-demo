@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="Gradle 1" modules="DemoMaterial3.annoid,DemoMaterial3.app,DemoMaterial3.assoid">
+    <profile name="Gradle 1" modules="scalroid-build-demo.app">
+      <option name="deprecationWarnings" value="true" />
+      <option name="uncheckedWarnings" value="true" />
+      <parameters>
+        <parameter value="-target:jvm-11" />
+      </parameters>
+    </profile>
+    <profile name="Gradle 3" modules="scalroid-build-demo.annoid,scalroid-build-demo.assoid">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
       <parameters>
