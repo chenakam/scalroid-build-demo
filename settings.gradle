@@ -23,5 +23,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "DemoMaterial3"
+rootProject.name = "scalroid-build-demo"
 include ':app', ':assoid', ':annoid'
