@@ -1,6 +1,6 @@
 # scalroid-build-demo
 
-Demo project for test [scalroid](https://github.com/chenakam/scalroid), which is a `scala-kotlin-java` union compile plugin built on `Gradle`.
+Demo project for test [scalroid](https://github.com/chenakam/scalroid), which is a `scala-kotlin-java` joint compilation plugin built on `Gradle`.
 
 ## Usage
 
