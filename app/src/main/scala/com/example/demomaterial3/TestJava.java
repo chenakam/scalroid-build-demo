@@ -4,6 +4,8 @@ import android.app.Activity;
 
 public class TestJava extends Activity {
     String hello() {
-        return "hello java";
+        int i = R.id.button_first;
+
+        return i + " hello java by `TestJava.java`";
     }
 }

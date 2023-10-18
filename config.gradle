@@ -19,14 +19,17 @@ def enableBuildScriptPrintln = true
 
 ext {
     android = [
-            compileSdk : 33,
-            buildTools : "33.0.2",
+            compileSdk : 34,
+            buildTools : "34.0.0",
 
             minSdk     : 26,
-            targetSdk  : 33,
+            targetSdk  : 34,
 
             versionCode: versionName2Code(VERSION_NAME),
-            versionName: VERSION_NAME
+            versionName: VERSION_NAME,
+
+            zincVer    : '1.8.0',
+            'jdkVer'   : JavaVersion.VERSION_17
     ]
 
     manifestPlaceholders = [
@@ -37,6 +40,15 @@ ext {
 
     enableScriptPrint = enableBuildScriptPrintln
     enablePerCpuArch = enableSeparateBuildPerCPUArchitecture
+
+    depends = [
+            'androidx.core'    : "androidx.core:core:$ktx.Version",
+            'androidx.core.ktx': "androidx.core:core-ktx:$ktx.Version",
+
+            annoguard          : 'com.github.bdo-cash:annoguard:v1.0.7',
+            'scalang'          : 'com.github.bdo-cash:scala-lang:9ae46c9fd4', // scala 2.12
+            'reflow'           : 'com.github.bdo-cash:reflow:v3.1.0', // scala 2.12
+    ]
 }
 
 ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////

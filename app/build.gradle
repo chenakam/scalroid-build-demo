@@ -9,7 +9,7 @@ plugins {
 
 android {
     scalroid {
-        scala.zincVersion.set('1.8.0')
+        scala.zincVersion.set(rootProject.ext.android.zincVer)
 //        scalaCodeReferToKt = true
 //        ktCodeReferToScala = false
 //        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
@@ -139,18 +139,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility rootProject.ext.android.jdkVer
+        targetCompatibility rootProject.ext.android.jdkVer
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = rootProject.ext.android.jdkVer.toString()
     }
     buildFeatures {
         viewBinding true
     }
 
     // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
+    applicationVariants.configureEach { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
@@ -186,7 +186,7 @@ static def getDate() {
 }
 
 // add `scalaCompileOptions` here.
-tasks.withType(ScalaCompile) {
+tasks.withType(ScalaCompile).configureEach {
     //options.incremental = false // 不起作用，不是通过这来设置
     scalaCompileOptions.forkOptions.with {
         //memoryMaximumSize = '3g'
@@ -208,17 +208,21 @@ dependencies {
 //    scalaCompilerPlugins "org.scalamacros:paradise_$scala2.Version:[2.1.0,)"
 //    scalaCompilerPlugins "org.typelevel:kind-projector_$scala2.Version:0.11.0"
 
-    // Fixed the problem with 'R.id.xxx' marked red (compile is still OK)
-    // Build error in Gradle 8.x, and 'R.id.xxx' is no longer marked in red.
+    // TODO: Fixed the problem with 'R.id.xxx' marked red (compile is still OK).
+    //  Build with Gradle 8.x: 'R.id.xxx' is no longer marked red in Kotlin, but still in Scala. Try to add the following
+    //  script to `buildSrc/.../ScalaAndroidCompatPlugin.groovy`, but failed.
+    //  com.android.build.gradle.internal.scope.InternalArtifactType.COMPILE_AND_RUNTIME_NOT_NAMESPACED_R_CLASS_JAR
 //    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_app_classes_jar')
-//    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar')
+//    compileOnly fileTree(include: '**/R.jar', dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar')
+//    compileOnly files('build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug/R.jar')
 
 //    configurations.implementation {
 //        exclude group: 'com.google.guava', module: 'listenablefuture'
 //    }
 //    implementation 'com.google.guava:guava:31.0.1-jre'
 
-    implementation "androidx.core:core-ktx:$ktx.Version"
+    implementation rootProject.ext.depends.'androidx.core.ktx'
+
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
