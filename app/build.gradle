@@ -9,7 +9,7 @@ plugins {
 
 android {
     scalroid {
-        scala.zincVersion.set('1.8.0')
+        scala.zincVersion.set(rootProject.ext.android.zincVer)
 //        scalaCodeReferToKt = true
 //        ktCodeReferToScala = false
 //        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
@@ -147,18 +147,18 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility rootProject.ext.android.jdkVer
+        targetCompatibility rootProject.ext.android.jdkVer
     }
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = rootProject.ext.android.jdkVer.toString()
     }
     buildFeatures {
         viewBinding true
     }
 
     // applicationVariants are e.g. debug, release
-    applicationVariants.all { variant ->
+    applicationVariants.configureEach { variant ->
         variant.outputs.each { output ->
             // For each separate APK per architecture, set a unique version code as described here:
             // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
@@ -194,7 +194,7 @@ static def getDate() {
 }
 
 // add `scalaCompileOptions` here.
-tasks.withType(ScalaCompile) {
+tasks.withType(ScalaCompile).configureEach {
     //options.incremental = false // 不起作用，不是通过这来设置
     scalaCompileOptions.forkOptions.with {
         //memoryMaximumSize = '3g'
@@ -217,9 +217,9 @@ dependencies {
 //    scalaCompilerPlugins "org.typelevel:kind-projector_$scala2.Version:0.11.0"
 
     ////////// ////////// ////////// ////////// ////////// 便于看 android gradle 插件的源码 ////////// ////////// ////////// ////////// //////////
-    // 注意：implementation 的 version 字段要与 id 'xxx' 的 version 保持一致（这在项目根目录下的`build.gradle`）。
-    // id 'com.android.application' version '7.4.0' apply false
-    // id 'org.jetbrains.kotlin.android' version '1.7.22' apply false
+    // 注意：compileOnly/implementation 的 version 字段要与 id 'xxx' 的 version 保持一致（这在项目根目录下的`build.gradle`）。
+    // id 'com.android.application' version '8.1.3' apply false
+    // id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
 
     // 这行不需要，External Libraries 下第一个就是`gradle-api-xxx.jar`。
     //implementation gradleApi()
@@ -229,26 +229,30 @@ dependencies {
 //    compileOnly 'org.gradle:gradle-core-api:6.1.1'
 
     // https://mvnrepository.com/artifact/com.android.tools.build/gradle
-//    compileOnly 'com.android.tools.build:gradle:7.4.1'
-//    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.8.10'
-//    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.8.10'
+    compileOnly 'com.android.tools.build:gradle:8.1.3'
+    compileOnly 'org.jetbrains.kotlin.android:org.jetbrains.kotlin.android.gradle.plugin:1.9.0'
+    compileOnly 'org.jetbrains.kotlin:kotlin-build-common:1.9.0'
 
     // 用来查看某编译后生成的`.jar`
 //    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_app_classes_jar/githubDebug')
 //    compileOnly fileTree(include: ['*.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug')
     ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// ////////// //////////
 
-    // Fixed the problem with 'R.id.xxx' marked red (compile is still OK)
-    // Build error in Gradle 8.x, and 'R.id.xxx' is no longer marked in red.
+    // TODO: Fixed the problem with 'R.id.xxx' marked red (compile is still OK).
+    //  Build with Gradle 8.x: 'R.id.xxx' is no longer marked red in Kotlin, but still in Scala. Try to add the following
+    //  script to `buildSrc/.../ScalaAndroidCompatPlugin.groovy`, but failed.
+    //  com.android.build.gradle.internal.scope.InternalArtifactType.COMPILE_AND_RUNTIME_NOT_NAMESPACED_R_CLASS_JAR
 //    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_app_classes_jar')
-//    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar')
+//    compileOnly fileTree(include: '**/R.jar', dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar')
+//    compileOnly files('build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug/R.jar')
 
 //    configurations.implementation {
 //        exclude group: 'com.google.guava', module: 'listenablefuture'
 //    }
 //    implementation 'com.google.guava:guava:31.0.1-jre'
 
-    implementation "androidx.core:core-ktx:$ktx.Version"
+    implementation rootProject.ext.depends.'androidx.core.ktx'
+
     implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

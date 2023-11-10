@@ -16,6 +16,7 @@ import hobby.chenai.nakam.basis.TAG
 import hobby.wei.c.LOG
 import hobby.wei.c.L
 import scala.collection.immutable.`Seq$`
+import scala.reflect.ClassTag
 import scala.runtime.AbstractFunction0
 
 class MainActivity : AppCompatActivity(), TAG.ClassName {
@@ -34,13 +35,18 @@ class MainActivity : AppCompatActivity(), TAG.ClassName {
 
         BuildConfig.XXX
         R.id.toolbar
+        R.id.button_first
+
+        ClassTag.AnyRef().runtimeClass()
+        ClassTag.apply<ActivityMainBinding>(binding.javaClass).runtimeClass()
+
         Test4().hi()
 
         Log.e(className().toString(), "test message ${Test2.hi()}")
         LOG.e(object : AbstractFunction0<String>() {
             override fun apply(): String = "test hi: ${test1.hi()}"
         }, `Seq$`.`MODULE$`.empty<Any>(), className())
-        L.e(className(), "test message %s", "hi java: ${test1.hiJava()}")
+        L.e(className(), "test message %s", L.s("hi java: ${test1.hiJava()}"))
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)

@@ -6,6 +6,6 @@ import java.io.IOException;
 public class TestJava2 {
     String hello() throws IOException {
         new File("xxx").getCanonicalPath();
-        return "hello java";
+        return "hello java by `TestJava2.java`";
     }
 }
