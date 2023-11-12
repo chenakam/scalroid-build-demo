@@ -9,9 +9,10 @@ plugins {
 
 android {
     scalroid {
-        scala.zincVersion.set(rootProject.ext.android.zincVer)
+        scala.zincVersion = rootProject.ext.android.zincVer
 //        scalaCodeReferToKt = true
 //        ktCodeReferToScala = false
+//        setAppRJarAsLib = false
 //        javaDirsExcludes = ['/main/kotlin/', 'src/aaa/xxx']
 //        message = 'Hi'
 //        greeter = 'Gradle'
@@ -208,13 +209,9 @@ dependencies {
 //    scalaCompilerPlugins "org.scalamacros:paradise_$scala2.Version:[2.1.0,)"
 //    scalaCompilerPlugins "org.typelevel:kind-projector_$scala2.Version:0.11.0"
 
-    // TODO: Fixed the problem with 'R.id.xxx' marked red (compile is still OK).
-    //  Build with Gradle 8.x: 'R.id.xxx' is no longer marked red in Kotlin, but still in Scala. Try to add the following
-    //  script to `buildSrc/.../ScalaAndroidCompatPlugin.groovy`, but failed.
-    //  com.android.build.gradle.internal.scope.InternalArtifactType.COMPILE_AND_RUNTIME_NOT_NAMESPACED_R_CLASS_JAR
 //    compileOnly fileTree(include: ['**/R.jar'], dir: 'build/intermediates/compile_app_classes_jar')
 //    compileOnly fileTree(include: '**/R.jar', dir: 'build/intermediates/compile_and_runtime_not_namespaced_r_class_jar')
-//    compileOnly files('build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubDebug/R.jar')
+//    compileOnly files('build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/githubRelease/R.jar')
 
 //    configurations.implementation {
 //        exclude group: 'com.google.guava', module: 'listenablefuture'
@@ -223,14 +220,14 @@ dependencies {
 
     implementation rootProject.ext.depends.'androidx.core.ktx'
 
-    implementation 'androidx.appcompat:appcompat:1.5.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.0'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation project(':annoid')
     implementation project(':assoid')
