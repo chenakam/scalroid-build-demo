@@ -17,7 +17,7 @@ plugins {
     id 'org.jetbrains.kotlin.android' version '[1.8.20-Beta, 1.9.20]' apply false
 
     // TODO: if you have not clone the dir `buildSrc/`, you need to uncomment the `version` filed.
-    id 'cash.bdo.scalroid' /*version '[1.5-gradle8,)'*/ apply false
+    id 'cash.bdo.scalroid' /*version '[1.6-gradle8,)'*/ apply false
 
     id 'com.dorongold.task-tree' version '[2.1.0,)'
 }
