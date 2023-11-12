@@ -66,7 +66,7 @@ static def versionName2Code(String versionName) {
 
     String versionCode = String.valueOf(Integer.valueOf(arr[0]) + 100) +
             arr[1] + arr[2] + String.format("%04d", Integer.valueOf(minor))
-    println("versionCode:$versionCode")
+    //println("versionCode:$versionCode")
 
     return Integer.valueOf(versionCode)
 }
